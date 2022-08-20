@@ -9,9 +9,9 @@ export default class LoginController {
   }
 
   login = (req: Request, res: Response): Response => {
-    const { email, password } = this.service.validateBody(req.body);
-    const token: string = this.service.login(email, password);
+    const data = this.service.validateBody(req.body);
+    const token: string = this.service.login(data);
 
-    return res.status(201).json({ token });
+    return res.status(200).json({ token });
   };
 }

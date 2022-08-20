@@ -1,5 +1,6 @@
 // import User from '../database/models/user';
 import CustomError from '../CustomError';
+import jwtService from './jwtService';
 
 export interface ILoginBody {
   email: string,
@@ -8,7 +9,7 @@ export interface ILoginBody {
 
 export interface ILoginService {
   validateBody(body: ILoginBody): ILoginBody,
-  login(email: string, password: string): string,
+  login(data: ILoginBody): string,
 }
 
 export default class LoginService implements ILoginService {
@@ -19,5 +20,9 @@ export default class LoginService implements ILoginService {
     return body;
   };
 
-  login = (email: string, password: string): string => `${[email, password]}`;
+  login = (data: ILoginBody): string => {
+    const token = jwtService.createToken(data);
+
+    return token;
+  };
 }
