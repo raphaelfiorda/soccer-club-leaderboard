@@ -1,4 +1,6 @@
 import * as express from 'express';
+import errorHandler from './middlewares/error';
+import loginRoute from './routes/loginRoute';
 
 // Iniciando o projeto
 
@@ -24,6 +26,10 @@ class App {
 
     this.app.use(express.json());
     this.app.use(accessControl);
+
+    this.app.use('/login', loginRoute);
+
+    this.app.use(errorHandler);
   }
 
   public start(PORT: string | number):void {

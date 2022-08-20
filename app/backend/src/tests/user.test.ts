@@ -13,7 +13,7 @@ import { app } from '../app';
 chai.use(chaiHttp);
 
 describe('Testa a camada service de /user', () => {
-  describe('Verifica o método create', () => {
+  describe('Verifica o método create', async () => {
     const response = await chai.request(app)
       .post('/login')
       .send(loginMock)
