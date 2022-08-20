@@ -8,9 +8,10 @@ export default class LoginController {
     this.service = service;
   }
 
-  login = (req: Request, res: Response): Response => {
-    const data = this.service.validateBody(req.body);
-    const token: string = this.service.login(data);
+  login = async (req: Request, res: Response): Promise<Response> => {
+    const data = await this.service.validateBody(req.body);
+    await this.service.checkUser(data);
+    const token: string = await this.service.login(data);
 
     return res.status(200).json({ token });
   };
