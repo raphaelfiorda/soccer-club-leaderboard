@@ -22,7 +22,7 @@ export default class LoginService implements ILoginService {
     return body;
   };
 
-  checkUser = async (body: ILoginBody): Promise<void> => {
+  checkUser = async (body: ILoginBody): Promise<boolean> => {
     const { email, password } = body;
     const user = await User.findOne({
       attributes: ['email', 'password'],
@@ -31,6 +31,8 @@ export default class LoginService implements ILoginService {
     const passwordHash = user?.password || '';
     const hasPasswordMatch = await bcryptjs.compare(password, passwordHash);
     if (!user || !hasPasswordMatch) throw new CustomError('Incorrect email or password', 401);
+
+    return true;
   };
 
   login = async (data: ILoginBody): Promise<string> => {

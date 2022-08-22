@@ -5,7 +5,7 @@
   "main": "./build/server",
   "scripts": {
     "build": "/bin/sh tsc_eval.sh",
-    "test": "mocha -r ts-node/register ./src/tests/*$NAME*.{test,spec}.ts -t 10000 --exit",
+    "test": "mocha -r ts-node/register ./src/tests/*.{test,spec}.ts -t 10000 --exit",
     "test:coverage": "nyc npm run test",
     "test:coverage:json": "nyc --reporter=json-summary npm run test",
     "db:reset": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
@@ -43,7 +43,7 @@
     "eslint-plugin-mocha": "9.0.0",
     "eslint-plugin-sonarjs": "0.10.0",
     "express-async-errors": "^3.1.1",
-    "mocha": "9.2.1",
+    "mocha": "^9.2.1",
     "nodemon": "2.0.15",
     "nyc": "15.1.0",
     "sequelize-cli": "6.3.0",
