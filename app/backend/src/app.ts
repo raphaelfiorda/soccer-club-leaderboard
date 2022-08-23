@@ -1,6 +1,7 @@
 import * as express from 'express';
 import errorHandler from './middlewares/error';
 import loginRoute from './routes/loginRoute';
+import teamRoute from './routes/teamRoute';
 
 // Iniciando o projeto
 
@@ -28,6 +29,7 @@ class App {
     this.app.use(accessControl);
 
     this.app.use('/login', loginRoute);
+    this.app.use('/teams', teamRoute);
 
     this.app.use(errorHandler);
   }
