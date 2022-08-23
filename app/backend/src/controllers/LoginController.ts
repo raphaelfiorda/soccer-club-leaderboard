@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
-import LoginService from '../services/LoginService';
+import jwtService from '../services/jwtService';
+import LoginService, { ILoginBody } from '../services/LoginService';
 
 export default class LoginController {
   public service: LoginService;
@@ -14,5 +15,14 @@ export default class LoginController {
     const token: string = await this.service.login(data);
 
     return res.status(200).json({ token });
+  };
+
+  get = async (req: Request, res: Response): Promise<Response> => {
+    const { authorization } = req.headers;
+    jwtService.validateToken(authorization as string);
+    const { data } = jwtService.decodeToken(authorization as string);
+    const userRole = await this.service.get(data as ILoginBody);
+
+    return res.status(200).json(userRole);
   };
 }

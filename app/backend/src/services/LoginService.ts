@@ -40,4 +40,15 @@ export default class LoginService implements ILoginService {
 
     return token;
   };
+
+  get = async (data: ILoginBody): Promise<User | null> => {
+    console.log(data);
+    const { email } = data;
+    const userRole = await User.findOne({
+      attributes: ['role'],
+      where: { email },
+    });
+
+    return userRole;
+  };
 }
