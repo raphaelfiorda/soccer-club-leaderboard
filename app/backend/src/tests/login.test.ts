@@ -13,7 +13,7 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe('Testa a integração da rota de /login', () => {
+describe('Testa a integração da rota /login', () => {
   describe('Verifica o caso de sucesso', async () => {
     beforeEach(() => {
       Sinon.stub(User, 'findOne').resolves(userLoginMock as User);
@@ -74,6 +74,29 @@ describe('Testa a integração da rota de /login', () => {
 
       expect(status).to.equal(401);
       expect(message).to.equal('Incorrect email or password');
+    });   
+  });
+
+  describe('Verifica a subrota de /validate', async() => {
+    beforeEach(() => {
+      Sinon.stub(User, 'findOne').resolves({ role: 'admin' } as User);
+      Sinon.stub(jwtService, 'validateToken').returns('');
+      Sinon.stub(jwtService, 'decodeToken').returns({ data: loginMock })
     });
+
+    afterEach(() => {
+      Sinon.restore();
+    })
+
+    it('Retorna a credencial do usuário logado', async () => {
+      const response = await chai.request(app)
+        .get('/login/validate')
+        .set('authorization', 'token');
+
+      const { status, body } = response;
+
+      expect(status).to.equal(200);
+      expect(body.role).to.equal('admin' );
+    });   
   });
 });
