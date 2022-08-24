@@ -6,12 +6,12 @@ export interface IMatchService {
 }
 
 export interface IMatch {
-  id: number;
+  id?: number;
   homeTeam: number;
   homeTeamGoals: number;
   awayTeam: number;
   awayTeamGoals: number;
-  inProgress: boolean;
+  inProgress?: boolean;
 }
 
 export default class MatchService implements IMatchService {
@@ -29,5 +29,11 @@ export default class MatchService implements IMatchService {
     });
 
     return matches;
+  };
+
+  create = async (matchReq: IMatch): Promise<IMatch> => {
+    const match = await Match.create({ ...matchReq, inProgress: true });
+
+    return match;
   };
 }

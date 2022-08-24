@@ -19,13 +19,13 @@ const jwtService = {
     return data;
   },
 
-  validateToken: (token: string) => {
+  validateToken: (token: string | undefined) => {
     if (!token) throw new CustomError('Token not found', 401);
 
     try {
       return jwt.verify(token, secret);
     } catch (err) {
-      throw new CustomError('Expired ou invalid token', 403);
+      throw new CustomError('Token must be a valid token', 401);
     }
   },
 };
