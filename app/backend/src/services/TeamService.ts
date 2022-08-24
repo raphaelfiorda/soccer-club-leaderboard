@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import CustomError from '../CustomError';
 import Team from '../database/models/team';
 
@@ -15,6 +16,18 @@ export interface ITeamService {
 export default class TeamService implements ITeamService {
   validateParams = (id: string): void => {
     if (typeof id !== 'string' || id === undefined) throw new CustomError('Invalid params', 400);
+  };
+
+  checkTeams = async (ids: number[]): Promise<ITeam[]> => {
+    const teams = await Team.findAll({
+      where: {
+        id: {
+          [Op.in]: ids,
+        },
+      },
+    });
+
+    return teams;
   };
 
   list = async (): Promise<ITeam[]> => {

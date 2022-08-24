@@ -24,4 +24,13 @@ export default class MatchController {
 
     return res.status(201).json(matchCreated);
   };
+
+  finish = async (req: Request, res: Response): Promise<Response> => {
+    const { id } = req.params;
+    const { authorization } = req.headers;
+    jwtService.validateToken(authorization);
+    await this.service.finish(id);
+
+    return res.status(200).json({ message: 'Finished' });
+  };
 }
