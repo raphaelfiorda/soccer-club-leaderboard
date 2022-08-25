@@ -28,9 +28,16 @@ export default class MatchController {
   finish = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
     const { authorization } = req.headers;
-    jwtService.validateToken(authorization);
+    jwtService.validateToken(authorization as string);
     await this.service.finish(id);
 
     return res.status(200).json({ message: 'Finished' });
+  };
+
+  update = async (req: Request, res: Response): Promise<Response> => {
+    const { id } = req.params;
+    const matchChanged = await this.service.update(req.body, id);
+
+    return res.status(200).json(matchChanged);
   };
 }

@@ -9,10 +9,10 @@ export interface IMatchService {
 
 export interface IMatch {
   id?: number;
-  homeTeam: number;
-  homeTeamGoals: number;
-  awayTeam: number;
-  awayTeamGoals: number;
+  homeTeam?: number;
+  homeTeamGoals?: number;
+  awayTeam?: number;
+  awayTeamGoals?: number;
   inProgress?: boolean;
 }
 
@@ -38,7 +38,7 @@ export default class MatchService implements IMatchService {
     if (homeTeam === awayTeam) {
       throw new CustomError('It is not possible to create a match with two equal teams', 401);
     }
-    const checkTeamsIds = new TeamService().checkTeams([homeTeam, awayTeam]);
+    const checkTeamsIds = new TeamService().checkTeams([homeTeam as number, awayTeam as number]);
     if ((await checkTeamsIds).length < 2) {
       throw new CustomError('There is no team with such id!', 404);
     }
@@ -49,5 +49,13 @@ export default class MatchService implements IMatchService {
 
   finish = async (id: string): Promise<void> => {
     await Match.update({ inProgress: false }, { where: { id } });
+  };
+
+  update = async (dataToChange: IMatch, id: string): Promise<IMatch> => {
+    const matchChanged = await Match.update(dataToChange, {
+      where: { id },
+    });
+
+    return matchChanged as IMatch;
   };
 }
