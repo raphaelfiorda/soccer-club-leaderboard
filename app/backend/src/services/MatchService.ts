@@ -5,6 +5,7 @@ import TeamService from './TeamService';
 
 export interface IMatchService {
   list(): Promise<IMatch[]>;
+  listFinished(): Promise<IMatch[]>;
 }
 
 export interface IMatch {
@@ -28,6 +29,24 @@ export default class MatchService implements IMatchService {
         as: 'teamAway',
         attributes: { exclude: ['id'] },
       }],
+    });
+
+    return matches;
+  };
+
+  listFinished = async (): Promise<IMatch[]> => {
+    const matches = await Match.findAll({
+      include: [{
+        model: Team,
+        as: 'teamHome',
+        attributes: { exclude: ['id'] },
+      }, {
+        model: Team,
+        as: 'teamAway',
+        attributes: { exclude: ['id'] },
+      }],
+      where: { inProgress: false },
+      order: ['home_team'],
     });
 
     return matches;
