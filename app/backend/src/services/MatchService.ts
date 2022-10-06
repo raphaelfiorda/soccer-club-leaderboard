@@ -34,6 +34,7 @@ export default class MatchService implements IMatchService {
     return matches;
   };
 
+  // Retorna todas as partidas em ordem ascendente por time(id)
   listFinished = async (): Promise<IMatch[]> => {
     const matches = await Match.findAll({
       include: [{

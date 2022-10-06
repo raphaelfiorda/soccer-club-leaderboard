@@ -1,4 +1,7 @@
 export default function sortLeaderboard(array: [], tieBreaker: string[]) {
+  // ['totalPoints', 'totalVictories', 'goalsBalance', 'goalsFavor', 'goalsOwn'];
+  // Ordem para desempate
+  // 1º Total de Vitórias; 2º Saldo de gols; 3º Gols a favor; 4º Gols sofridos.
   const sortedArray = array
     .sort((a, b) => {
       switch (true) {

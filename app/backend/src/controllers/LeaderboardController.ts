@@ -11,7 +11,6 @@ export default class LeaderboardController {
   listHomeTeams = async (_req: Request, res: Response): Promise<Response> => {
     const homeTeamLeaderboard = await this.service.listHomeTeams();
 
-    console.log(homeTeamLeaderboard);
     return res.status(200).json(homeTeamLeaderboard);
   };
 }

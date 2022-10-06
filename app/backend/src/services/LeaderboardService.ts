@@ -23,6 +23,7 @@ export interface ILeaderboard {
 export default class LeaderboardService implements ILeaderboard {
   listHomeTeams = async (): Promise<ITeamScore[]> => {
     const matchesFinished = await new MatchService().listFinished();
+    // A função a seguir retorna as partidas organizadas em sub-arrays por time
     const matchesByTeam = subArrayGen(matchesFinished as [], 'homeTeam');
     const homeTeamLeaderboard: ITeamScore[] = matchesByTeam
       .map((matches) => {
